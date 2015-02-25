@@ -14,29 +14,19 @@ Para cada respuesta, habrá que poner la cabecera 'Content-Type' con su tipo mim
 Usaremos un microframework como http://webpy.org o http://flask.pocoo.org
 En http://blog.luisrei.com/articles/flaskrest.html hay una aplicación parecida
 """
-from flask import Flask, url_for, render_template, Response
+from flask import Flask, url_for, render_template, Response, send_file
 import random
 app = Flask(__name__)
 
-@app.route('/')
-def api_root():
-    return 'Welcome'
-
-@app.route('/articles')
-def api_articles():
-    return 'List of ' + url_for('api_articles')
-
-@app.route('/articles/<articleid>')
-def api_article(articleid):
-    return 'You are reading ' + articleid
     
 """ ----------------------------------------------------------------------------------------------------------------
 SSBW
 """
 
-# @app.route('/')
-# def api_root():
-    # return 'Bienvenido'
+@app.route('/')
+def api_root():
+    resp = 'Bienvenido'
+    return Response(resp, mimetype='text/plain')
 
 # /hola -> 'Hola -cañon-'  (el string 'hola -cañón-' como txt, la ñ y la ó se deben ver bien en el navegador)
 @app.route('/hola')
@@ -47,8 +37,8 @@ def api_hola():
 # /imagen  -> una imágen que tengamos preparada
 @app.route('/imagen')
 def api_imagen():
-    resp = 'No implementado'
-    return Response(resp, mimetype='text/plain')
+    rutaImagen = 'static/imagen.jpg'
+    return send_file(rutaImagen, mimetype='image/jpg')
 
 # /hola_pepe -> 'Hola <b>Pepe</b>' como html
 @app.route('/hola_pepe')
@@ -67,7 +57,7 @@ def api_pagina():
 @app.route('/circulos_varios/<numcirculos>')
 def api_circulos(numcirculos=3):
     circulos = []
-    colores = ['red','green','blue','purple','brown','yellow']
+    colores = ['red','green','blue','purple','brown','yellow','black','pink','white']
     for i in range(int(numcirculos)):
         circulos.append( [random.randint(50, 200),random.randint(50, 200),random.randint(20, 50)] )
     resp = '<svg height="400" width="400">'
