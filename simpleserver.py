@@ -63,15 +63,15 @@ def api_pagina():
     return Response(html, mimetype='text/html')
 
 # /circulos_varios  -> una arhivo svg con circulos generados  aleatoriamente en cada requermiento
-@app.route('/circulos')
-@app.route('/circulos/<numcirculos>')
+@app.route('/circulos_varios')
+@app.route('/circulos_varios/<numcirculos>')
 def api_circulos(numcirculos=3):
     circulos = []
     colores = ['red','green','blue','purple','brown','yellow']
-    for i in range(numcirculos):
+    for i in range(int(numcirculos)):
         circulos.append( [random.randint(50, 200),random.randint(50, 200),random.randint(20, 50)] )
     resp = '<svg height="400" width="400">'
-    for i in range(numcirculos):
+    for i in range(int(numcirculos)):
         resp += '<circle cx="%s" cy="%s" r="%s" stroke="black" stroke-width="3" fill="%s" />' % (circulos[i][0],circulos[i][1],circulos[i][2],colores[random.randint(0, len(colores)-1)])
     resp += '</svg>'
     return Response(resp)
